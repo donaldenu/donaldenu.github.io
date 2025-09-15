@@ -1,0 +1,32 @@
+Project: Automated Receipt Processing with AWS Textract, Lambda, and DynamoDB
+
+Summary:
+This project automates extraction of key data from receipt images. When a receipt image is uploaded to S3, a Lambda function calls Amazon Textract (AnalyzeExpense), parses vendor, date, total and line items, stores a clean record in DynamoDB, and archives the raw Textract JSON to S3 for auditing.
+
+Tech stack:
+- AWS Textract (AnalyzeExpense)
+- AWS Lambda (Python 3.11)
+- Amazon S3 (input & raw output)
+- Amazon DynamoDB (Receipts table)
+- AWS SAM for deployment
+- Logging: CloudWatch
+
+Highlights:
+- Serverless architecture for low cost scaling.
+- Uses Textract’s receipt-specific APIs to extract structured expense data.
+- DynamoDB used for fast lookups and easy integration with downstream apps.
+- Raw Textract outputs retained for traceability.
+
+How to run:
+1. Clone repo
+2. `sam build && sam deploy --guided` (or deploy via AWS Console)
+3. Upload a receipt image to the input S3 bucket
+4. Inspect DynamoDB table for processed result
+
+Notes & Improvements:
+- For multi-page PDFs use asynchronous Textract expense analysis (StartExpenseAnalysis).
+- Add retries and dead-letter queue for failed Textract calls or parsing errors.
+- Add optional SNS or Webhook notifications on processing completion.
+- Extend parsing heuristics for better date/currency detection.
+
+Code: (link to the repo or include files)
